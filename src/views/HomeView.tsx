@@ -92,27 +92,27 @@ const tableRow: Variants = {
   })
 };
 
-// Lifestyle photography from homichi.com, grouped by room
+// Homichi campaign lifestyle visuals, grouped by room
 const LIVING_SPACES = [
   {
     eyebrow: 'Phòng khách & phòng ngủ',
     title: 'Mát lành cả gia đình',
     image: 'phong-khach.webp',
-    position: 'object-center',
+    alt: 'Gia đình Việt bên điều hòa Livotec DHV Series Inverter',
     products: ['Điều hòa', 'Quạt', 'Quạt điều hòa', 'Máy hút ẩm'],
   },
   {
     eyebrow: 'Phòng bếp',
     title: 'Bữa cơm thêm trọn vị',
     image: 'phong-bep.webp',
-    position: 'object-center',
+    alt: 'Nồi chiên không dầu Livotec 4D Vision Glass trong căn bếp gia đình',
     products: ['Bếp từ', 'Máy hút mùi', 'Nồi chiên không dầu', 'Nồi cơm điện'],
   },
   {
     eyebrow: 'Phòng tắm',
     title: 'Ấm áp mỗi sớm mai',
     image: 'phong-tam.webp',
-    position: 'object-[30%_center]',
+    alt: 'Bình nước nóng gián tiếp Livotec LWH-V20T26 trong phòng tắm',
     products: ['Bình nước nóng', 'Máy sưởi'],
   },
 ];
@@ -672,27 +672,29 @@ export const HomeView: React.FC<HomeViewProps> = ({
               variants={cardItem}
               key={space.title}
               onClick={() => setCurrentTab('products')}
-              className="group relative h-[380px] sm:h-[440px] rounded-[24px] overflow-hidden bg-slate-900 text-left text-white border border-slate-200/60 shadow-md cursor-pointer"
+              className="group flex flex-col rounded-[24px] overflow-hidden bg-white text-left border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-xl hover:border-[#0062d2]/40 transition-all duration-300 cursor-pointer"
             >
-              <img
-                src={`${import.meta.env.BASE_URL}assets/lifestyle/${space.image}`}
-                alt={space.title}
-                loading="lazy"
-                className={`absolute inset-0 w-full h-full object-cover ${space.position} transition-transform duration-700 ease-out group-hover:scale-105`}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060b14]/95 via-[#060b14]/35 to-transparent" />
+              {/* Campaign visuals are square with headline copy baked in, so show them whole */}
+              <div className="relative aspect-square overflow-hidden bg-slate-100">
+                <img
+                  src={`${import.meta.env.BASE_URL}assets/lifestyle/${space.image}`}
+                  alt={space.alt}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7 space-y-3">
-                <span className="font-mono text-[11px] font-semibold text-[#93c5fd] uppercase tracking-wider">{space.eyebrow}</span>
+              <div className="flex-1 flex flex-col p-6 sm:p-7 space-y-3">
+                <span className="font-mono text-[11px] font-semibold text-[#0062d2] uppercase tracking-wider">{space.eyebrow}</span>
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="font-serif text-2xl font-bold">{space.title}</h3>
-                  <span className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center shrink-0 transition-all group-hover:bg-[#0062d2] group-hover:border-[#0062d2]">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#0f172a]">{space.title}</h3>
+                  <span className="w-9 h-9 rounded-full border border-[#e2e8f0] text-[#0f172a] flex items-center justify-center shrink-0 transition-all group-hover:bg-[#0062d2] group-hover:border-[#0062d2] group-hover:text-white">
                     <ArrowRight className="w-4 h-4" />
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {space.products.map((product) => (
-                    <span key={product} className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] text-white/90">
+                    <span key={product} className="px-2.5 py-1 rounded-full bg-[#f1f5f9] text-[11px] text-[#475569]">
                       {product}
                     </span>
                   ))}

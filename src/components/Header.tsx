@@ -69,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
             aria-label="Homichi Trang chủ"
           >
             <img
-              src="/assets/aistudio/homichi_logo_transparent.png"
+              src={`${import.meta.env.BASE_URL}assets/aistudio/homichi_logo_transparent.png`}
               alt="Homichi Logo"
               className="h-6 sm:h-8 w-auto object-contain"
             />

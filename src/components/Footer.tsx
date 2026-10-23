@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="max-w-xl space-y-3">
             <div className="bg-white px-5 py-3.5 rounded-xl w-fit inline-block shadow-lg shadow-black/20">
               <img
-                src="/assets/aistudio/homichi_logo_transparent.png"
+                src={`${import.meta.env.BASE_URL}assets/aistudio/homichi_logo_transparent.png`}
                 alt="Homichi Logo"
                 className="h-8 sm:h-10 w-auto object-contain"
               />

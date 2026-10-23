@@ -158,7 +158,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop"
           className="absolute inset-0 w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-1000 ease-out"
         >
-          <source src="/assets/homichi_hero_cinematic.mp4" type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}assets/homichi_hero_cinematic.mp4`} type="video/mp4" />
         </video>
 
         {/* Ambient Dark & Radial Contrast Gradients (ensures crisp readability of Roboto typography) */}

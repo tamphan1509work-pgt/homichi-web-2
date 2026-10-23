@@ -65,3 +65,12 @@ h1, h2, h3, h4, h5, h6, .font-editorial {
 ::-webkit-scrollbar-thumb:hover {
   background: #0062d2;
 }
+
+/* Headings: balanced lines, and the italic accent phrase moves to the next
+   line as a whole rather than splitting mid-phrase */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+h1 em, h2 em {
+  display: inline-block;
+}

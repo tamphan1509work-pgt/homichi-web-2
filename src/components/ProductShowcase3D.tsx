@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { vn } from '../utils/typography';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -80,13 +81,13 @@ export const ProductShowcase3D: React.FC<ProductShowcase3DProps> = ({ onViewProd
 
       {/* Heading + arrows */}
       <div className="relative z-10 px-6 sm:px-12 pt-10 sm:pt-14 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-        <div className="space-y-3 max-w-xl">
+        <div className="space-y-3 max-w-2xl">
           <span className="font-mono text-xs font-semibold text-[#93c5fd] uppercase tracking-wider block">
             DANH MỤC SẢN PHẨM HOMICHI
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-normal leading-tight text-white">
-            Thiết kế hiện đại,{' '}
-            <em className="font-light italic text-[#93c5fd]">sẵn sàng cho thương hiệu của bạn</em>
+            {vn('Thiết kế hiện đại,')}{' '}
+            <em className="font-light italic text-[#93c5fd]">{vn('sẵn sàng cho thương hiệu của bạn')}</em>
           </h2>
         </div>
         <div className="flex items-center gap-3 shrink-0">

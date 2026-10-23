@@ -4,19 +4,45 @@ import { Play, Pause } from 'lucide-react';
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}assets/${path}`;
 
-// Slide 0 is the brand video; the rest are homichi.com campaign banners,
-// which carry their own logo and copy, so the headline only overlays the video.
-const BANNERS = [
-  { src: 'banners/banner-dieu-hoa.webp', alt: 'Điều hòa Livotec Inverter' },
-  { src: 'banners/banner-binh-nuoc-nong.webp', alt: 'Bình nước nóng gián tiếp Livotec LWH-V15A25' },
-  { src: 'banners/banner-quat.webp', alt: 'Quạt cây Livotec tiết kiệm điện năng' },
-  { src: 'banners/banner-bep-tu.webp', alt: 'Bếp từ đôi Livotec tiết kiệm điện năng' },
+// Slide 0 is the brand video; the rest are Homichi campaign visuals that carry
+// their own logo and copy, so the main headline only overlays the video.
+//   wide    – banner close to the hero ratio, shown full-bleed
+//   contain – banner wider than tall but not hero-wide, shown whole over its fill
+//   split   – square visual pinned right, with a short caption on the left
+type BannerLayout = 'wide' | 'contain' | 'split';
+interface Banner {
+  name: string;
+  alt: string;
+  layout: BannerLayout;
+  eyebrow?: string;
+  title?: string;
+}
+
+const BANNERS: Banner[] = [
+  { name: 'hero-smart-living', alt: 'Homichi Smart Appliances, Modern Living', layout: 'wide' },
+  {
+    name: 'hero-bep-tu-booster',
+    alt: 'Bếp từ đôi Livotec Booster siêu tốc 4800W',
+    layout: 'split',
+    eyebrow: 'Gia dụng bếp',
+    title: 'Bếp từ đôi Livotec',
+  },
+  { name: 'hero-quat-san', alt: 'Quạt sàn Livotec FT-18 tiết kiệm 1.5 lần điện năng', layout: 'contain' },
+  {
+    name: 'hero-dieu-hoa-ivo',
+    alt: 'Điều hòa Livotec DH24 Inverter công nghệ IVO 4.0',
+    layout: 'split',
+    eyebrow: 'Điện máy, điện lạnh',
+    title: 'Điều hòa Livotec DH24 Inverter',
+  },
 ];
 
+const bannerSrc = (banner: Banner) => asset(`banners/${banner.name}.webp`);
+// 48px pre-blurred copy, scaled up by CSS: a soft fill with no live blur filter over the video
+const fillSrc = (banner: Banner) => asset(`banners/${banner.name}-fill.webp`);
+
 const SLIDE_COUNT = BANNERS.length + 1;
-const BANNER_MS = 5500;
-// If the video buffers longer than this, move on instead of showing a frozen frame
-const STALL_MS = 2500;
+const BANNER_MS = 6000;
 
 // Banners are ~2.5:1, so they only read well full-bleed on wide screens
 const WIDE_QUERY = '(min-width: 1024px)';
@@ -34,11 +60,11 @@ const useIsWide = () => {
 interface HeroSliderProps {
   onOpenRfq: () => void;
   onOpenProfile: () => void;
+  onViewProducts: () => void;
 }
 
-export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile }) => {
+export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile, onViewProducts }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const stallTimer = useRef<number | undefined>(undefined);
   const [active, setActive] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const isWide = useIsWide();
@@ -51,7 +77,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile
 
   const goTo = useCallback((index: number) => setActive((index + SLIDE_COUNT) % SLIDE_COUNT), []);
   const next = useCallback(() => setActive((i) => (i + 1) % SLIDE_COUNT), []);
-  // Video events (ended / error / stall) can fire back to back; only leave slide 0 once
+  // Video events (ended / error) can fire back to back; only leave slide 0 once
   const leaveVideo = useCallback(() => {
     if (isWide) setActive((i) => (i === 0 ? 1 : i));
   }, [isWide]);
@@ -74,14 +100,6 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile
     const id = window.setTimeout(next, BANNER_MS);
     return () => window.clearTimeout(id);
   }, [active, isPlaying, isVideoSlide, next]);
-
-  const clearStall = () => window.clearTimeout(stallTimer.current);
-  const handleWaiting = () => {
-    clearStall();
-    if (isWide && isVideoSlide && isPlaying) stallTimer.current = window.setTimeout(leaveVideo, STALL_MS);
-  };
-  // A pending stall skip is stale once the slide changes or playback is paused
-  useEffect(() => clearStall, [isVideoSlide, isPlaying]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -111,8 +129,6 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile
           preload="auto"
           poster={asset('hero/hero-factory.jpg')}
           onEnded={leaveVideo}
-          onWaiting={handleWaiting}
-          onPlaying={clearStall}
           onError={leaveVideo}
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         >
@@ -123,29 +139,70 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#0062d2]/25 blur-[120px] rounded-full pointer-events-none" />
       </div>
 
-      {/* Slides 1..n: banners, shown uncropped over a blurred fill of themselves */}
+      {/* Slides 1..n: campaign visuals */}
       {isWide && BANNERS.map((banner, idx) => {
         const isActive = active === idx + 1;
         return (
           <div
-            key={banner.src}
+            key={banner.name}
             aria-hidden={!isActive}
-            className={`absolute inset-0 transition-opacity duration-1000 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${isActive ? 'opacity-100 z-[1]' : 'opacity-0'}`}
           >
-            <img
-              src={asset(banner.src)}
-              alt=""
-              aria-hidden
-              className="absolute inset-0 w-full h-full object-cover scale-125 blur-3xl opacity-70"
-            />
-            <motion.img
-              src={asset(banner.src)}
-              alt={banner.alt}
-              loading={idx === 0 ? 'eager' : 'lazy'}
-              className="absolute inset-0 w-full h-full object-contain"
-              animate={isActive ? { scale: [1, 1.04] } : { scale: 1 }}
-              transition={{ duration: BANNER_MS / 1000 + 1, ease: 'linear' }}
-            />
+            {banner.layout !== 'wide' && (
+              <img src={fillSrc(banner)} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
+            )}
+
+            {banner.layout === 'split' ? (
+              <>
+              <motion.img
+                src={bannerSrc(banner)}
+                alt={banner.alt}
+                loading="lazy"
+                className="absolute right-0 inset-y-0 h-full w-auto aspect-square object-cover origin-right [mask-image:linear-gradient(to_right,transparent,black_10%)]"
+                animate={isActive ? { scale: [1, 1.04] } : { scale: 1 }}
+                transition={{ duration: BANNER_MS / 1000 + 1, ease: 'linear' }}
+              />
+              <div className="absolute inset-0 max-w-[1280px] mx-auto px-6 flex items-center">
+                <motion.div
+                  className="relative z-10 max-w-md space-y-4 text-[#0f172a]"
+                  initial={false}
+                  animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -24 }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: isActive ? 0.35 : 0 }}
+                >
+                  <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider">{banner.eyebrow}</span>
+                  <h2 className="text-3xl xl:text-4xl font-semibold leading-tight text-balance">{banner.title}</h2>
+                  <p className="text-sm text-[#334155] leading-relaxed">
+                    Sẵn sàng tùy biến OEM / Private Label: logo, màu sắc CMF và bao bì theo nhận diện thương hiệu của bạn.
+                  </p>
+                  <div className="flex flex-wrap gap-3 pt-1">
+                    <button
+                      onClick={onViewProducts}
+                      tabIndex={isActive ? 0 : -1}
+                      className="px-6 py-3 rounded-full bg-[#0062d2] hover:bg-[#004fb0] text-white text-sm font-semibold shadow-lg shadow-[#0062d2]/25 transition-colors cursor-pointer"
+                    >
+                      Xem danh mục sản phẩm
+                    </button>
+                    <button
+                      onClick={onOpenRfq}
+                      tabIndex={isActive ? 0 : -1}
+                      className="px-6 py-3 rounded-full bg-white/70 hover:bg-white border border-[#0062d2]/20 text-[#0f172a] text-sm font-medium backdrop-blur-sm transition-colors cursor-pointer"
+                    >
+                      Nhận báo giá
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+              </>
+            ) : (
+              <motion.img
+                src={bannerSrc(banner)}
+                alt={banner.alt}
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                className={`absolute inset-0 w-full h-full ${banner.layout === 'wide' ? 'object-cover object-left' : 'object-contain'}`}
+                animate={isActive ? { scale: [1, 1.04] } : { scale: 1 }}
+                transition={{ duration: BANNER_MS / 1000 + 1, ease: 'linear' }}
+              />
+            )}
           </div>
         );
       })}
@@ -269,7 +326,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ onOpenRfq, onOpenProfile
   );
 };
 
-// Narrow screens: banners as a swipeable strip under the hero, at their native ratio
+// Narrow screens: campaign visuals as a swipeable strip under the hero
 const MobileBannerStrip: React.FC = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -295,19 +352,21 @@ const MobileBannerStrip: React.FC = () => {
         className="flex overflow-x-auto snap-x snap-mandatory rounded-2xl shadow-lg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {BANNERS.map((banner) => (
-          <img
-            key={banner.src}
-            src={asset(banner.src)}
-            alt={banner.alt}
-            loading="lazy"
-            className="snap-start shrink-0 w-full aspect-[1905/755] object-cover"
-          />
+          <div key={banner.name} className="relative snap-start shrink-0 w-full aspect-[4/3] overflow-hidden">
+            <img src={fillSrc(banner)} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
+            <img
+              src={bannerSrc(banner)}
+              alt={banner.alt}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-contain"
+            />
+          </div>
         ))}
       </div>
       <div className="flex items-center justify-center gap-2 pt-3">
         {BANNERS.map((banner, idx) => (
           <button
-            key={banner.src}
+            key={banner.name}
             onClick={() => scrollToIndex(idx)}
             aria-label={`Xem banner ${idx + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${

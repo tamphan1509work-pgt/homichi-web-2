@@ -23,6 +23,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { PRODUCTS, Product } from '../data/products';
+import { vn } from '../utils/typography';
 import { ProductShowcase3D } from '../components/ProductShowcase3D';
 import { HeroSlider } from '../components/HeroSlider';
 import { WORKFLOW_STEPS } from '../data/companyInfo';
@@ -156,7 +157,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       {/* ============================================================== */}
       {/* 1. HERO SLIDESHOW: brand video + homichi.com campaign banners  */}
       {/* ============================================================== */}
-      <HeroSlider onOpenRfq={() => onOpenRfq()} onOpenProfile={onOpenProfile} />
+      <HeroSlider onOpenRfq={() => onOpenRfq()} onOpenProfile={onOpenProfile} onViewProducts={() => setCurrentTab('products')} />
 
       {/* ============================================================== */}
       {/* 2. "Gia công ODM/OEM thật dễ dàng" (Matching Video 00:04 - 00:05) */}
@@ -171,10 +172,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
       >
         
         {/* Section Heading with Italic accent */}
-        <div className="text-center max-w-xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-14">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Gia công ODM / OEM{' '}
-            <em className="font-light italic text-[#0062d2]">thật dễ dàng</em>
+            {vn('Gia công ODM / OEM')}{' '}
+            <em className="font-light italic text-[#0062d2]">{vn('thật dễ dàng')}</em>
           </h2>
         </div>
 
@@ -370,8 +371,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
           
           <motion.div variants={cardItem} className="text-center max-w-2xl mx-auto space-y-3">
             <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-              Kiểm soát chất lượng{' '}
-              <em className="font-light italic text-[#0062d2]">hơn 49 chỉ số an toàn</em>
+              {vn('Kiểm soát chất lượng')}{' '}
+              <em className="font-light italic text-[#0062d2]">{vn('hơn 49 chỉ số an toàn')}</em>
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-[#475569] pt-2">
               <div className="flex items-center gap-1.5">
@@ -595,10 +596,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
         
-        <div className="text-center max-w-xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Chuẩn mực mới cho{' '}
-            <em className="font-light italic text-[#0062d2]">thiết bị gia đình</em>
+            {vn('Chuẩn mực mới cho')}{' '}
+            <em className="font-light italic text-[#0062d2]">{vn('thiết bị gia đình')}</em>
           </h2>
         </div>
 
@@ -649,10 +650,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
         
-        <div className="text-center max-w-xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Giải pháp cho{' '}
-            <em className="font-light italic text-[#0062d2]">mọi không gian sống</em>
+            {vn('Giải pháp cho')}{' '}
+            <em className="font-light italic text-[#0062d2]">{vn('mọi không gian sống')}</em>
           </h2>
           <p className="text-xs text-[#64748b] mt-2">
             Danh mục thiết bị đồng bộ cho từng không gian trong ngôi nhà Việt, sẵn sàng tùy biến theo thương hiệu riêng.
@@ -728,8 +729,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
               QUY MÔ & NĂNG LỰC CUNG ỨNG
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-              Tiêu chuẩn vàng trong{' '}
-              <em className="font-light italic text-[#0062d2]">chế tác thiết bị gia dụng</em>
+              {vn('Tiêu chuẩn vàng trong')}{' '}
+              <em className="font-light italic text-[#0062d2]">{vn('chế tác thiết bị gia dụng')}</em>
             </h2>
             <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
               Tổ hợp nhà máy đặt tại khu công nghệ cao với chuỗi cung ứng khép kín từ gia công cơ khí chính xác, dây chuyền dán linh kiện SMT tự động đến kho vận quốc tế.
@@ -794,10 +795,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
         
-        <div className="text-center max-w-xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Không chỉ là{' '}
-            <em className="font-light italic text-[#0062d2]">gia công thông thường</em>
+            {vn('Không chỉ là')}{' '}
+            <em className="font-light italic text-[#0062d2]">{vn('gia công thông thường')}</em>
           </h2>
           <p className="text-xs text-[#64748b] mt-2">
             So sánh trực quan giữa mô hình hợp tác toàn diện tại Homichi và các xưởng gia công truyền thống.
@@ -885,10 +886,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
         
-        <div className="text-center max-w-xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Quy trình hợp tác{' '}
-            <em className="font-light italic text-[#0062d2]">minh bạch trong 6 bước</em>
+            {vn('Quy trình hợp tác')}{' '}
+            <em className="font-light italic text-[#0062d2]">{vn('minh bạch trong 6 bước')}</em>
           </h2>
           <p className="text-xs text-[#64748b] mt-2">
             Từ ý tưởng đến lô hàng mang thương hiệu riêng — mỗi giai đoạn đều có mốc thời gian và đầu mục bàn giao rõ ràng.
@@ -941,13 +942,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
       >
         <motion.div variants={bannerReveal} className="p-10 sm:p-16 rounded-[24px] bg-[#0062d2] text-white relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
           
-          <motion.div variants={cardItem} className="space-y-3 max-w-xl z-10 text-left">
+          <motion.div variants={cardItem} className="space-y-3 max-w-2xl z-10 text-left">
             <span className="font-mono text-xs uppercase tracking-widest text-white/80 font-semibold">
               KHỞI ĐẦU DỰ ÁN CÙNG HOMICHI
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight text-white">
-              Sẵn sàng sở hữu dòng sản phẩm{' '}
-              <em className="font-light italic text-[#cbe1ff]">mang thương hiệu riêng?</em>
+              {vn('Sẵn sàng sở hữu dòng sản phẩm')}{' '}
+              <em className="font-light italic text-[#cbe1ff]">{vn('mang thương hiệu riêng?')}</em>
             </h2>
             <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
               Nhận tư vấn giải pháp ODM/OEM chuyên sâu, phân tích cấu trúc chi phí linh kiện và bảng báo giá chi tiết trong vòng 24 giờ.

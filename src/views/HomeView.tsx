@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, MotionConfig, type Variants } from 'framer-motion';
 import { 
   ArrowRight, 
@@ -13,8 +13,6 @@ import {
   ShieldCheck, 
   Cpu, 
   Zap, 
-  Play, 
-  Pause,
   Minus,
   Sparkles,
   Calendar,
@@ -26,6 +24,8 @@ import {
 } from 'lucide-react';
 import { PRODUCTS, Product } from '../data/products';
 import { ProductShowcase3D } from '../components/ProductShowcase3D';
+import { HeroSlider } from '../components/HeroSlider';
+import { WORKFLOW_STEPS } from '../data/companyInfo';
 
 // Reveal animation variants for scroll-triggered high-end feel
 const fadeInUp: Variants = {
@@ -91,6 +91,31 @@ const tableRow: Variants = {
   })
 };
 
+// Lifestyle photography from homichi.com, grouped by room
+const LIVING_SPACES = [
+  {
+    eyebrow: 'Phòng khách & phòng ngủ',
+    title: 'Mát lành cả gia đình',
+    image: 'phong-khach.webp',
+    position: 'object-center',
+    products: ['Điều hòa', 'Quạt', 'Quạt điều hòa', 'Máy hút ẩm'],
+  },
+  {
+    eyebrow: 'Phòng bếp',
+    title: 'Bữa cơm thêm trọn vị',
+    image: 'phong-bep.webp',
+    position: 'object-center',
+    products: ['Bếp từ', 'Máy hút mùi', 'Nồi chiên không dầu', 'Nồi cơm điện'],
+  },
+  {
+    eyebrow: 'Phòng tắm',
+    title: 'Ấm áp mỗi sớm mai',
+    image: 'phong-tam.webp',
+    position: 'object-[30%_center]',
+    products: ['Bình nước nóng', 'Máy sưởi'],
+  },
+];
+
 interface HomeViewProps {
   onOpenRfq: (initialCategory?: string, initialModel?: string) => void;
   onOpenTour: () => void;
@@ -108,21 +133,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onViewProductDetails,
   setCurrentTab,
 }) => {
-  // Video playback ref and state
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-
-  const toggleVideoPlay = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
   // Micro-interactive widgets from the reference video walkthrough
   const [selectedCalendarDay, setSelectedCalendarDay] = useState<number>(7);
   const [activeChecklist, setActiveChecklist] = useState<string[]>([
@@ -144,135 +154,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     <div className="space-y-20 sm:space-y-28 pb-20">
       
       {/* ============================================================== */}
-      {/* 1. HERO SECTION (Matching Video Reference Walkthrough)         */}
-      {/* Cinematic video background with play/pause and bottom stats    */}
+      {/* 1. HERO SLIDESHOW: brand video + homichi.com campaign banners  */}
       {/* ============================================================== */}
-      <section className="relative w-full min-h-[640px] sm:min-h-[720px] lg:min-h-[780px] bg-[#070b14] text-white flex flex-col justify-end overflow-hidden">
-        
-        {/* Full-bleed Cinematic Video Background */}
-        <video 
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={`${import.meta.env.BASE_URL}assets/hero/hero-factory.jpg`}
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-1000 ease-out"
-        >
-          <source src={`${import.meta.env.BASE_URL}assets/hero/hero-factory.mp4`} type="video/mp4" />
-        </video>
-
-        {/* Ambient Dark & Radial Contrast Gradients (ensures crisp readability of Roboto typography) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#060b14] via-[#060b14]/55 to-black/35 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060b14]/90 via-[#060b14]/40 to-transparent pointer-events-none" />
-        
-        {/* Subtle decorative radial glow in Homichi Blue */}
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#0062d2]/25 blur-[120px] rounded-full pointer-events-none" />
-
-        {/* Hero Content Container: Lower Left content + Lower Right stats & pause control */}
-        <div className="relative z-10 max-w-[1280px] w-full mx-auto px-4 sm:px-6 pt-24 sm:pt-36 pb-12 sm:pb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
-          
-          {/* Lower Left Headline & CTAs */}
-          <motion.div 
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="max-w-2xl space-y-6"
-          >
-            
-            {/* Pill Tag (matching reference video top pill) */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#93c5fd] font-mono text-xs font-medium tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0062d2] animate-pulse" />
-              TIÊU CHUẨN ISO 9001:2015 · CE / CB ELIGIBLE
-            </div>
-
-            {/* Headline in Roboto */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.08] tracking-tight text-white text-balance">
-              Thiết bị gia dụng.{' '}
-              <span className="font-light italic text-[#93c5fd]">Thông minh & tinh tế.</span>
-            </h1>
-
-            {/* Subtext in Roboto */}
-            <p className="text-sm sm:text-base text-slate-200/90 font-normal leading-relaxed max-w-xl">
-              Nền tảng sản xuất và nghiên cứu ODM/OEM trọn gói cho 120+ thương hiệu gia dụng cao cấp. Dây chuyền SMT tự động, linh kiện tiêu chuẩn và vận hành đạt chứng nhận quốc tế.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3.5">
-              <button
-                onClick={() => onOpenRfq()}
-                className="px-7 py-3.5 text-xs sm:text-sm font-semibold text-[#070b14] bg-white hover:bg-slate-100 rounded-full shadow-lg transition-all cursor-pointer whitespace-nowrap active:scale-[0.98]"
-              >
-                Gửi yêu cầu báo giá (RFQ)
-              </button>
-              <button
-                onClick={onOpenProfile}
-                className="px-6 py-3.5 text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 rounded-full transition-all cursor-pointer whitespace-nowrap"
-              >
-                Hồ sơ năng lực 2026
-              </button>
-            </div>
-
-          </motion.div>
-
-          {/* Lower Right: 3 Metric Stats with Hairline Dividers + Frosted Glass Play/Pause Toggle */}
-          <motion.div 
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.22 }}
-            className="flex items-center gap-5 sm:gap-7 self-start lg:self-end bg-black/40 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-4 lg:p-0 rounded-2xl border border-white/10 lg:border-none"
-          >
-            
-            <div className="flex items-center divide-x divide-white/20">
-              
-              <div className="pr-4 sm:pr-7">
-                <div className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                  50.000m²
-                </div>
-                <div className="text-xs text-slate-300 font-normal mt-0.5">
-                  Tổ hợp sản xuất
-                </div>
-              </div>
-
-              <div className="px-4 sm:px-7">
-                <div className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                  8 Dây chuyền
-                </div>
-                <div className="text-xs text-slate-300 font-normal mt-0.5">
-                  SMT tự động hóa
-                </div>
-              </div>
-
-              <div className="pl-4 sm:pl-7">
-                <div className="text-2xl sm:text-3xl font-bold tracking-tight text-[#93c5fd]">
-                  1.200.000+
-                </div>
-                <div className="text-xs text-slate-300 font-normal mt-0.5">
-                  Thiết bị/năm
-                </div>
-              </div>
-
-            </div>
-
-            {/* Circular Glass Pause/Play Toggle Button (matching video reference bottom-right) */}
-            <button
-              onClick={toggleVideoPlay}
-              aria-label={isPlaying ? "Tạm dừng video nền" : "Phát video nền"}
-              title={isPlaying ? "Tạm dừng video nền" : "Phát video nền"}
-              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/25 bg-black/40 hover:bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all cursor-pointer active:scale-95 shrink-0"
-            >
-              {isPlaying ? (
-                <Pause className="w-4 h-4 text-white" />
-              ) : (
-                <Play className="w-4 h-4 text-white ml-0.5" />
-              )}
-            </button>
-
-          </motion.div>
-
-        </div>
-
-      </section>
+      <HeroSlider onOpenRfq={() => onOpenRfq()} onOpenProfile={onOpenProfile} />
 
       {/* ============================================================== */}
       {/* 2. "Gia công ODM/OEM thật dễ dàng" (Matching Video 00:04 - 00:05) */}
@@ -755,8 +639,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </motion.section>
 
       {/* ============================================================== */}
-      {/* 6. "Real people. Real results." VIDEO / PARTNER CARDS          */}
-      {/* (Matching Video 00:13 - 00:14)                                 */}
+      {/* 6. GIẢI PHÁP CHO MỌI KHÔNG GIAN SỐNG (lifestyle categories)     */}
       {/* ============================================================== */}
       <motion.section 
         initial="hidden"
@@ -768,9 +651,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
         
         <div className="text-center max-w-xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Đối tác chiến lược.{' '}
-            <em className="font-light italic text-[#0062d2]">Thành công thực tế.</em>
+            Giải pháp cho{' '}
+            <em className="font-light italic text-[#0062d2]">mọi không gian sống</em>
           </h2>
+          <p className="text-xs text-[#64748b] mt-2">
+            Danh mục thiết bị đồng bộ cho từng không gian trong ngôi nhà Việt, sẵn sàng tùy biến theo thương hiệu riêng.
+          </p>
         </div>
 
         <motion.div 
@@ -778,67 +664,41 @@ export const HomeView: React.FC<HomeViewProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          
-          {[
-            {
-              name: 'Anh Trần Minh Hoàng',
-              role: 'Phó TGĐ Chuỗi Bán lẻ Gia dụng',
-              quote: 'Dòng bếp từ đôi của Homichi đã giúp doanh số của chúng tôi tăng trưởng 40% chỉ sau một quý nhờ độ mỏng và thiết kế tối giản.',
-              img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop'
-            },
-            {
-              name: 'Ông Đặng Văn Vũ',
-              role: 'Giám đốc R&D Thương hiệu Thiết bị',
-              quote: 'Khả năng tự chủ khuôn ép nhựa và bo mạch SMT giúp chúng tôi rút ngắn tiến độ ra mắt sản phẩm từ 6 tháng xuống còn 45 ngày.',
-              img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop'
-            },
-            {
-              name: 'Bà Hoàng Thu Trang',
-              role: 'Quản lý Thu mua Quốc tế',
-              quote: 'Chứng nhận CE và kiểm định độ ồn tĩnh âm dưới 28dB của Homichi hoàn toàn thuyết phục các nhà kiểm định đối tác nước ngoài.',
-              img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop'
-            },
-            {
-              name: 'Ông Lê Quốc Bảo',
-              role: 'Chủ sáng lập Nhãn hàng Smart Home',
-              quote: 'Chính sách cung cấp 2% linh kiện bảo hành FOC đi kèm theo lô hàng giúp chúng tôi cực kỳ an tâm khi triển khai dịch vụ hậu mãi.',
-              img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop'
-            }
-          ].map((item, idx) => (
-            <motion.div
+          {LIVING_SPACES.map((space) => (
+            <motion.button
               variants={cardItem}
-              key={idx}
-              className="relative rounded-[24px] overflow-hidden group bg-slate-900 text-white h-[360px] flex flex-col justify-end p-6 border border-slate-700/60 shadow-md"
+              key={space.title}
+              onClick={() => setCurrentTab('products')}
+              className="group relative h-[380px] sm:h-[440px] rounded-[24px] overflow-hidden bg-slate-900 text-left text-white border border-slate-200/60 shadow-md cursor-pointer"
             >
-              {/* Photo */}
               <img
-                src={item.img}
-                alt={item.name}
-                referrerPolicy="no-referrer"
-                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500"
+                src={`${import.meta.env.BASE_URL}assets/lifestyle/${space.image}`}
+                alt={space.title}
+                loading="lazy"
+                className={`absolute inset-0 w-full h-full object-cover ${space.position} transition-transform duration-700 ease-out group-hover:scale-105`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060b14]/95 via-[#060b14]/35 to-transparent" />
 
-              {/* Play Button Icon Overlay (matching video 00:13) */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-[#0062d2] text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Play className="w-5 h-5 ml-0.5 fill-current" />
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7 space-y-3">
+                <span className="font-mono text-[11px] font-semibold text-[#93c5fd] uppercase tracking-wider">{space.eyebrow}</span>
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="font-serif text-2xl font-bold">{space.title}</h3>
+                  <span className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center shrink-0 transition-all group-hover:bg-[#0062d2] group-hover:border-[#0062d2]">
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {space.products.map((product) => (
+                    <span key={product} className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] text-white/90">
+                      {product}
+                    </span>
+                  ))}
                 </div>
               </div>
-
-              {/* Overlay content */}
-              <div className="relative z-10 space-y-1 text-left">
-                <p className="text-xs text-white/90 line-clamp-3 leading-relaxed mb-2">
-                  "{item.quote}"
-                </p>
-                <div className="font-serif font-bold text-sm text-white">{item.name}</div>
-                <div className="text-[11px] text-[#82b4ff]">{item.role}</div>
-              </div>
-            </motion.div>
+            </motion.button>
           ))}
-
         </motion.div>
 
       </motion.section>
@@ -1015,8 +875,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </motion.section>
 
       {/* ============================================================== */}
-      {/* 9. "Built with top doctors" -> BAN CỐ VẤN KỸ THUẬT & R&D        */}
-      {/* (Matching Video 00:20)                                         */}
+      {/* 9. QUY TRÌNH HỢP TÁC ODM/OEM 6 BƯỚC                            */}
       {/* ============================================================== */}
       <motion.section 
         initial="hidden"
@@ -1028,64 +887,45 @@ export const HomeView: React.FC<HomeViewProps> = ({
         
         <div className="text-center max-w-xl mx-auto mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Xây dựng cùng{' '}
-            <em className="font-light italic text-[#0062d2]">đội ngũ kỹ sư hàng đầu</em>
+            Quy trình hợp tác{' '}
+            <em className="font-light italic text-[#0062d2]">minh bạch trong 6 bước</em>
           </h2>
           <p className="text-xs text-[#64748b] mt-2">
-            Ban cố vấn kỹ thuật và các chuyên gia cơ điện tử giàu kinh nghiệm tại Homichi.
+            Từ ý tưởng đến lô hàng mang thương hiệu riêng — mỗi giai đoạn đều có mốc thời gian và đầu mục bàn giao rõ ràng.
           </p>
         </div>
 
-        <motion.div 
+        <motion.ol 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          {[
-            {
-              name: 'TS. Phan Thanh Tùng',
-              title: 'Trưởng ban R&D Cơ điện tử',
-              desc: 'Nguyên Viện Nghiên cứu Điện tử, chuyên gia giải pháp Dual Inverter.',
-              img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop'
-            },
-            {
-              name: 'KTS. Lê Quang Huy',
-              title: 'Giám đốc Thiết kế CMF',
-              desc: 'Hơn 15 năm thiết kế kiểu dáng công nghiệp gia dụng phong cách tối giản.',
-              img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop'
-            },
-            {
-              name: 'Kỹ sư Vũ Đức Thắng',
-              title: 'Giám đốc Vận hành SMT',
-              desc: 'Chuyên gia quản trị dây chuyền JUKI chuẩn 5S & Lean Six Sigma.',
-              img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'
-            },
-            {
-              name: 'Bà Đỗ Mai Phương',
-              title: 'Trưởng phòng Kiểm chuẩn QA/QC',
-              desc: 'Chuyên viên kiểm định chứng nhận quốc tế CE, CB, RoHS và QCVN.',
-              img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'
-            }
-          ].map((doc, idx) => (
-            <motion.div variants={cardItem} key={idx} className="space-y-3 text-center">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full overflow-hidden border-2 border-[#e2e8f0] bg-slate-100">
-                <img
-                  src={doc.img}
-                  alt={doc.name}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
-                />
+          {WORKFLOW_STEPS.map((step) => (
+            <motion.li
+              variants={cardItem}
+              key={step.step}
+              className="group relative p-7 rounded-[24px] bg-white border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:border-[#0062d2]/50 hover:shadow-lg transition-all overflow-hidden"
+            >
+              <span aria-hidden className="absolute -top-5 -right-1 font-serif text-[110px] leading-none font-bold text-[#0062d2]/[0.06] select-none transition-colors group-hover:text-[#0062d2]/[0.12]">
+                {step.step}
+              </span>
+              <div className="relative flex items-center justify-between gap-3">
+                <span className="w-10 h-10 rounded-full bg-[#0062d2] text-white font-mono text-sm font-bold flex items-center justify-center shadow-md shadow-[#0062d2]/25">
+                  {step.step}
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f1f5f9] text-[11px] font-mono text-[#475569]">
+                  <Calendar className="w-3 h-3 text-[#0062d2]" />
+                  {step.duration}
+                </span>
               </div>
-              <div>
-                <h4 className="font-serif font-bold text-sm sm:text-base text-[#0f172a]">{doc.name}</h4>
-                <div className="text-[11px] font-mono text-[#0062d2] font-semibold">{doc.title}</div>
-                <p className="text-[11px] text-[#64748b] mt-1 max-w-[200px] mx-auto leading-snug">{doc.desc}</p>
-              </div>
-            </motion.div>
+              <h3 className="relative mt-5 font-serif text-lg font-bold text-[#0f172a] leading-snug">{step.title}</h3>
+              <div className="relative text-[11px] font-mono text-[#0062d2] mt-1">{step.titleEn}</div>
+              <p className="relative text-xs text-[#475569] leading-relaxed mt-3">{step.desc}</p>
+            </motion.li>
           ))}
-        </motion.div>
+        </motion.ol>
 
       </motion.section>
 

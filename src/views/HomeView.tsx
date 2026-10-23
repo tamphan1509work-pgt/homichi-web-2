@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef } from 'react';
-import { motion, type Variants } from 'framer-motion';
+import { motion, MotionConfig, type Variants } from 'framer-motion';
 import { 
   ArrowRight, 
   Check, 
@@ -56,6 +56,40 @@ const cardItem: Variants = {
   }
 };
 
+// Banner reveal: soft scale-in, then staggers its inner blocks
+const bannerReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.12,
+      delayChildren: 0.2
+    }
+  }
+};
+
+// Bar chart columns grow from the baseline one after another (custom = column index)
+const barGrow: Variants = {
+  hidden: { scaleY: 0 },
+  visible: (i: number) => ({
+    scaleY: 1,
+    transition: { duration: 0.6, delay: 0.25 + i * 0.07, ease: [0.16, 1, 0.3, 1] }
+  })
+};
+
+// Comparison table rows cascade in (custom = row index)
+const tableRow: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: 0.1 + i * 0.06, ease: [0.16, 1, 0.3, 1] }
+  })
+};
+
 interface HomeViewProps {
   onOpenRfq: (initialCategory?: string, initialModel?: string) => void;
   onOpenTour: () => void;
@@ -105,6 +139,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   };
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="space-y-20 sm:space-y-28 pb-20">
       
       {/* ============================================================== */}
@@ -440,9 +475,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
         variants={fadeInUp}
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
-        <div className="p-8 sm:p-14 rounded-[24px] bg-white border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] space-y-10">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="p-8 sm:p-14 rounded-[24px] bg-white border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] space-y-10"
+        >
           
-          <div className="text-center max-w-2xl mx-auto space-y-3">
+          <motion.div variants={cardItem} className="text-center max-w-2xl mx-auto space-y-3">
             <h2 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
               Kiểm soát chất lượng{' '}
               <em className="font-light italic text-[#0062d2]">hơn 49 chỉ số an toàn</em>
@@ -461,10 +502,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 <span>Độ ồn tĩnh âm dưới 28dB</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Interactive Range & Tolerance Simulation Display (from video 00:06) */}
-          <div className="max-w-md mx-auto p-5 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] space-y-3 shadow-sm">
+          <motion.div variants={cardItem} className="max-w-md mx-auto p-5 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] space-y-3 shadow-sm">
             <div className="flex justify-between text-[11px] font-mono text-[#64748b]">
               <span>DUNG SAI CHO PHÉP</span>
               <span className="text-[#0062d2] font-bold">CHUẨN XUẤT XƯỞNG</span>
@@ -484,10 +525,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <span>Min Tolerance: ±0.01mm</span>
               <span>Max Voltage Drop: &lt; 1%</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Horizontal Ticker / Category Flow (from video 00:07) */}
-          <div className="pt-4 border-t border-[#e2e8f0]">
+          <motion.div variants={cardItem} className="pt-4 border-t border-[#e2e8f0]">
             <div className="flex flex-wrap items-center justify-center gap-y-3 text-xs text-[#334155]">
               <span className="hover:text-[#0062d2] transition-colors cursor-pointer">Bếp từ Dual Inverter E-Smart</span>
               <span className="px-3 text-[#0062d2] font-bold">·</span>
@@ -503,9 +544,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <span className="px-3 text-[#0062d2] font-bold">·</span>
               <span className="hover:text-[#0062d2] transition-colors cursor-pointer">Điều hòa một chiều Inverter Gas R32</span>
             </div>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
       </motion.section>
 
       {/* ============================================================== */}
@@ -799,10 +840,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
         variants={fadeInUp}
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
-        <div className="p-8 sm:p-14 rounded-[24px] bg-white border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="p-8 sm:p-14 rounded-[24px] bg-white border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
+        >
           
           {/* Left Text */}
-          <div className="lg:col-span-6 space-y-6">
+          <motion.div variants={cardItem} className="lg:col-span-6 space-y-6">
             <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
               QUY MÔ & NĂNG LỰC CUNG ỨNG
             </span>
@@ -821,38 +868,44 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <span>Xem báo cáo năng lực sản xuất chi tiết</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-          </div>
+          </motion.div>
 
           {/* Right Micro Chart & Metric Blocks (Matching Video 00:15 - 00:16) */}
-          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <motion.div variants={staggerContainer} className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             
-            <div className="p-6 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col justify-between">
+            <motion.div variants={cardItem} className="p-6 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col justify-between">
               <div>
                 <span className="font-mono text-[10px] text-[#64748b] uppercase">DIỆN TÍCH NHÀ MÁY</span>
                 <div className="font-serif text-3xl font-bold text-[#0f172a] mt-1">50.000m²</div>
               </div>
               <p className="text-[11px] text-[#64748b] mt-4">Tổ hợp bao gồm 4 phân xưởng công nghệ cao và trung tâm đo kiểm R&D.</p>
-            </div>
+            </motion.div>
 
-            <div className="p-6 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] space-y-3">
+            <motion.div variants={cardItem} className="p-6 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] space-y-3">
               <span className="font-mono text-[10px] text-[#64748b] uppercase">SẢN PHẨM HÀNG NĂM</span>
               <div className="font-serif text-3xl font-bold text-[#0062d2]">1.2M+</div>
               
               {/* Vertical Bar Chart Widget (from video frame 00:16) */}
               <div className="h-16 flex items-end gap-1.5 pt-2">
                 {[20, 32, 45, 60, 75, 88, 100].map((h, i) => (
-                  <div key={i} className="flex-1 bg-[#0062d2] rounded-t-[2px]" style={{ height: `${h}%` }}></div>
+                  <motion.div
+                    key={i}
+                    variants={barGrow}
+                    custom={i}
+                    className="flex-1 bg-[#0062d2] rounded-t-[2px] origin-bottom"
+                    style={{ height: `${h}%` }}
+                  />
                 ))}
               </div>
               <div className="text-[9px] font-mono text-[#64748b] flex justify-between">
                 <span>2020</span>
                 <span>2026 (Hiện tại)</span>
               </div>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
       </motion.section>
 
       {/* ============================================================== */}
@@ -878,7 +931,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
 
         {/* The Exact Comparison Table from Video (00:17 - 00:19) */}
-        <div className="rounded-[24px] border border-[#e2e8f0] bg-white overflow-hidden shadow-lg">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="rounded-[24px] border border-[#e2e8f0] bg-white overflow-hidden shadow-lg"
+        >
           <div className="grid grid-cols-12 text-xs">
             
             {/* Header row */}
@@ -911,19 +969,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
             ].map((row, idx) => (
               <React.Fragment key={idx}>
                 {/* Feature Label */}
-                <div className={`col-span-6 sm:col-span-6 p-4 sm:p-5 border-t border-[#e2e8f0] flex items-center font-medium text-[#0f172a] ${idx % 2 === 0 ? 'bg-[#f8fafc]/60' : 'bg-white'}`}>
+                <motion.div variants={tableRow} custom={idx} className={`col-span-6 sm:col-span-6 p-4 sm:p-5 border-t border-[#e2e8f0] flex items-center font-medium text-[#0f172a] ${idx % 2 === 0 ? 'bg-[#f8fafc]/60' : 'bg-white'}`}>
                   {row.label}
-                </div>
+                </motion.div>
 
                 {/* Homichi Highlight Column Cell (Matching Video: Blue cell with white circle check) */}
                 <div className="col-span-3 sm:col-span-3 p-4 sm:p-5 bg-[#0062d2] border-t border-[#004fb0] flex items-center justify-center text-white">
-                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                  <motion.div variants={tableRow} custom={idx} className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
                     <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Standard Other Cell (Matching Video: Neutral cell with circle minus) */}
-                <div className={`col-span-3 sm:col-span-3 p-4 sm:p-5 border-t border-[#e2e8f0] flex items-center justify-center text-[#94a3b8] ${idx % 2 === 0 ? 'bg-[#f8fafc]/60' : 'bg-white'}`}>
+                <motion.div variants={tableRow} custom={idx} className={`col-span-3 sm:col-span-3 p-4 sm:p-5 border-t border-[#e2e8f0] flex items-center justify-center text-[#94a3b8] ${idx % 2 === 0 ? 'bg-[#f8fafc]/60' : 'bg-white'}`}>
                   {row.other ? (
                     <div className="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center">
                       <Check className="w-3.5 h-3.5 text-[#475569]" />
@@ -933,12 +991,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       <Minus className="w-3 h-3 text-[#94a3b8]" />
                     </div>
                   )}
-                </div>
+                </motion.div>
               </React.Fragment>
             ))}
 
           </div>
-        </div>
+        </motion.div>
 
       </motion.section>
 
@@ -1027,9 +1085,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
         variants={fadeInUp}
         className="max-w-[1280px] mx-auto px-4 sm:px-6"
       >
-        <div className="p-10 sm:p-16 rounded-[24px] bg-[#0062d2] text-white relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
+        <motion.div variants={bannerReveal} className="p-10 sm:p-16 rounded-[24px] bg-[#0062d2] text-white relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl">
           
-          <div className="space-y-3 max-w-xl z-10 text-left">
+          <motion.div variants={cardItem} className="space-y-3 max-w-xl z-10 text-left">
             <span className="font-mono text-xs uppercase tracking-widest text-white/80 font-semibold">
               KHỞI ĐẦU DỰ ÁN CÙNG HOMICHI
             </span>
@@ -1040,9 +1098,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
               Nhận tư vấn giải pháp ODM/OEM chuyên sâu, phân tích cấu trúc chi phí linh kiện và bảng báo giá chi tiết trong vòng 24 giờ.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 z-10 w-full sm:w-auto">
+          <motion.div variants={cardItem} className="flex flex-col sm:flex-row items-center gap-4 z-10 w-full sm:w-auto">
             <button
               onClick={() => onOpenRfq()}
               className="w-full sm:w-auto px-8 py-4 rounded-[40px] bg-white text-[#0062d2] hover:bg-slate-100 text-xs sm:text-sm font-semibold shadow-lg transition-all cursor-pointer whitespace-nowrap"
@@ -1055,16 +1113,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
             >
               Đặt lịch tham quan nhà máy
             </button>
-          </div>
+          </motion.div>
 
           {/* Decorative watermark */}
           <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none text-[160px] font-serif select-none -mb-16 -mr-16">
             HOMICHI
           </div>
 
-        </div>
+        </motion.div>
       </motion.section>
 
     </div>
+    </MotionConfig>
   );
 };

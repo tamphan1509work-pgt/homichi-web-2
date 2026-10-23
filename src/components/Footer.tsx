@@ -1,5 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Download, FileText, ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { FacebookIcon } from './FacebookIcon';
+import { SOCIAL_LINKS } from '../data/companyInfo';
 
 interface FooterProps {
   setCurrentTab: (tab: string) => void;
@@ -216,6 +218,21 @@ export const Footer: React.FC<FooterProps> = ({
                 <span className="font-mono text-white">b2b@homichi.com</span>
               </div>
             </div>
+
+            <a
+              href={SOCIAL_LINKS.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-1 inline-flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-full bg-white/5 hover:bg-[#1877f2] border border-slate-700 hover:border-[#1877f2] transition-all"
+            >
+              <span className="w-8 h-8 rounded-full bg-[#1877f2] group-hover:bg-white flex items-center justify-center transition-colors">
+                <FacebookIcon className="w-4 h-4 text-white group-hover:text-[#1877f2] transition-colors" />
+              </span>
+              <span className="text-[11px] leading-tight">
+                <span className="block font-semibold text-white">Homichi trên Facebook</span>
+                <span className="block text-slate-400 group-hover:text-white/85 transition-colors">Theo dõi tin tức & sản phẩm mới</span>
+              </span>
+            </a>
 
             <div className="pt-3">
               <span className="block text-[11px] font-semibold text-white mb-1.5">Giờ làm việc R&D:</span>

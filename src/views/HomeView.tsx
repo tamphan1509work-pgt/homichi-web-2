@@ -25,6 +25,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { PRODUCTS, Product } from '../data/products';
+import { ProductShowcase3D } from '../components/ProductShowcase3D';
 
 // Reveal animation variants for scroll-triggered high-end feel
 const fadeInUp: Variants = {
@@ -155,10 +156,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
           loop
           muted
           playsInline
-          poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop"
+          poster={`${import.meta.env.BASE_URL}assets/hero/hero-factory.jpg`}
           className="absolute inset-0 w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-1000 ease-out"
         >
-          <source src={`${import.meta.env.BASE_URL}assets/homichi_hero_cinematic.mp4`} type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}assets/hero/hero-factory.mp4`} type="video/mp4" />
         </video>
 
         {/* Ambient Dark & Radial Contrast Gradients (ensures crisp readability of Roboto typography) */}
@@ -547,6 +548,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </motion.div>
 
         </motion.div>
+      </motion.section>
+
+      {/* ============================================================== */}
+      {/* 3b. 3D PRODUCT SHOWCASE CAROUSEL (renders from homichi.com)     */}
+      {/* ============================================================== */}
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeInUp}
+        className="max-w-[1280px] mx-auto px-4 sm:px-6"
+      >
+        <ProductShowcase3D onViewProducts={() => setCurrentTab('products')} />
       </motion.section>
 
       {/* ============================================================== */}

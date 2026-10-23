@@ -210,3 +210,7 @@ export const FAQ_LIST = [
     a: 'Có. Đội ngũ pháp lý và kỹ sư của Homichi sẽ đồng hành hỗ trợ toàn bộ quá trình lập hồ sơ, đưa mẫu đi đo kiểm tại các trung tâm Quatest, TÜV, Intertek và hoàn tất các thủ tục dán nhãn năng lượng, chứng nhận hợp quy theo đúng thị trường mà quý đối tác kinh doanh.'
   }
 ];
+
+export const SOCIAL_LINKS = {
+  facebook: 'https://www.facebook.com/profile.php?id=61591618326120',
+};

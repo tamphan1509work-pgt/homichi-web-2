@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Search, Globe, Menu, X, FileText, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { FacebookIcon } from './FacebookIcon';
+import { SOCIAL_LINKS } from '../data/companyInfo';
 
 interface HeaderProps {
   currentTab: string;
@@ -51,6 +53,17 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <span className="text-white/40">|</span>
             <span className="font-mono text-white/90">Hotline: +84 (0) 24 3888 6688</span>
+            <span className="text-white/40">|</span>
+            <a
+              href={SOCIAL_LINKS.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Homichi trên Facebook"
+              className="flex items-center gap-1.5 text-white/90 hover:text-white transition-colors"
+            >
+              <FacebookIcon className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Facebook</span>
+            </a>
           </div>
         </div>
       </div>

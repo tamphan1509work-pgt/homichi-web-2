@@ -1,0 +1,6 @@
+{
+  "name": "Homichi — Smart Living & Precision ODM/OEM Manufacturing",
+  "description": "Website branding thương hiệu đồ gia dụng thông minh Homichi với phong cách tối giản, tinh tế, giới thiệu năng lực sản xuất ODM/OEM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

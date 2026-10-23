@@ -23,11 +23,11 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Top brand promise block with official Logo image */}
         <div className="pb-12 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl space-y-3">
-            <div className="bg-white p-2.5 rounded-lg w-fit inline-block">
+            <div className="bg-white px-5 py-3.5 rounded-xl w-fit inline-block shadow-lg shadow-black/20">
               <img
-                src="/assets/aistudio/HOMICHI_Logo_4d5d5eb9.png"
+                src="/assets/aistudio/homichi_logo_transparent.png"
                 alt="Homichi Logo"
-                className="h-7 w-auto object-contain"
+                className="h-8 sm:h-10 w-auto object-contain"
               />
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">

@@ -57,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Primary Sticky Top Bar - Clean white canvas with crisp slate border */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e2e8f0] transition-all">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between gap-6">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between gap-3 xl:gap-6">
           
           {/* Zone 1: Homichi Logo using official logo image */}
           <button
@@ -69,14 +69,14 @@ export const Header: React.FC<HeaderProps> = ({
             aria-label="Homichi Trang chủ"
           >
             <img
-              src="/assets/aistudio/HOMICHI_Logo_4d5d5eb9.png"
+              src="/assets/aistudio/homichi_logo_transparent.png"
               alt="Homichi Logo"
-              className="h-7 sm:h-8 w-auto object-contain"
+              className="h-6 sm:h-8 w-auto object-contain"
             />
           </button>
 
           {/* Zone 2: Clean single-line text navigation links */}
-          <nav className="hidden lg:flex items-center gap-6 text-[14px] font-medium text-[#334155]">
+          <nav className="hidden xl:flex items-center gap-5 text-[14px] font-medium text-[#334155]">
             {navItems.map((item) => {
               const isActive = currentTab === item.id;
               return (
@@ -100,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Zone 3: Utilities & 1 Primary Action */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Quick search button */}
             <button
               onClick={onOpenSearch}
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Ghost action for partners */}
             <button
               onClick={onOpenProfile}
-              className="hidden md:inline-flex px-3 py-2 text-xs font-medium text-[#0f172a] hover:text-[#0062d2] hover:bg-[#f1f5f9] rounded-[40px] transition-colors cursor-pointer"
+              className="hidden md:inline-flex xl:hidden px-3 py-2 text-xs font-medium text-[#0f172a] hover:text-[#0062d2] hover:bg-[#f1f5f9] rounded-[40px] transition-colors cursor-pointer"
             >
               Hồ sơ năng lực
             </button>
@@ -132,15 +132,16 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Primary Action Button */}
             <button
               onClick={() => onOpenRfq()}
-              className="inline-flex items-center justify-center px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-[#0062d2] hover:bg-[#004fb0] rounded-[40px] shadow-sm transition-all whitespace-nowrap shrink-0 cursor-pointer active:scale-[0.98]"
+              className="inline-flex items-center justify-center px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-[#0062d2] hover:bg-[#004fb0] rounded-[40px] shadow-sm transition-all whitespace-nowrap shrink-0 cursor-pointer active:scale-[0.98]"
             >
-              Yêu cầu báo giá
+              <span className="hidden min-[400px]:inline">Yêu cầu báo giá</span>
+              <span className="min-[400px]:hidden">Báo giá</span>
             </button>
 
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#0f172a] hover:bg-[#f1f5f9] rounded-full transition-colors cursor-pointer"
+              className="xl:hidden p-2 text-[#0f172a] hover:bg-[#f1f5f9] rounded-full transition-colors cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -150,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-[#e2e8f0] px-6 py-4 shadow-xl animate-in slide-in-from-top-2 duration-200">
+          <div className="xl:hidden bg-white border-b border-[#e2e8f0] px-6 py-4 shadow-xl animate-in slide-in-from-top-2 duration-200">
             <nav className="flex flex-col gap-2 pb-3">
               {navItems.map((item) => (
                 <button

@@ -188,17 +188,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           
-          {/* Card 01: 49+ Mẫu thiết bị với Micro Calendar Picker Widget */}
+          {/* Card 01: Danh mục thiết bị với Micro Calendar Picker Widget */}
           <motion.div variants={cardItem} className="rounded-[24px] bg-white p-8 sm:p-10 border border-[#e2e8f0] shadow-[0_4px_20px_rgba(15,23,42,0.03)] flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <span className="font-mono text-xs font-semibold text-[#0062d2] block">
                 01
               </span>
               <h3 className="font-serif text-2xl font-bold text-[#0f172a]">
-                49+ Mẫu thiết bị sẵn sàng
+                Danh mục thiết bị sẵn sàng
               </h3>
               <p className="text-xs text-[#475569] leading-relaxed">
-                Lên lịch duyệt mẫu thực tế từ danh mục 49 thiết bị gia dụng: bếp từ, hút bụi, quạt làm mát, hút ẩm và bình nước nóng.
+                Lên lịch duyệt mẫu thực tế từ danh mục thiết bị gia dụng sẵn có: bếp từ, hút bụi, quạt làm mát, hút ẩm và bình nước nóng.
               </p>
 
               {/* Micro-UI: Calendar Picker Widget (from video frame 00:04) */}
@@ -560,14 +560,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </ul>
           </motion.div>
 
-          {/* Card 6: "+ Khám phá thêm 49 sản phẩm" (Matching video 00:10) */}
+          {/* Card 6: "+ Khám phá thêm sản phẩm" (Matching video 00:10) */}
           <motion.div 
             variants={cardItem}
             onClick={() => setCurrentTab('products')}
             className="p-6 sm:p-8 rounded-[24px] bg-[#f8fafc] border-2 border-dashed border-[#0062d2]/30 hover:border-[#0062d2] hover:bg-blue-50/40 transition-all cursor-pointer flex flex-col justify-between space-y-4"
           >
             <div className="space-y-2">
-              <span className="text-[11px] font-mono text-[#0062d2] font-semibold">+ 49 SẢN PHẨM SẴN CÓ</span>
+              <span className="text-[11px] font-mono text-[#0062d2] font-semibold">+ DANH MỤC SẴN CÓ</span>
               <h4 className="font-serif text-2xl font-bold text-[#0f172a]">Bình nóng lạnh & Quạt đứng</h4>
               <p className="text-xs text-[#475569] leading-relaxed">
                 Khám phá đầy đủ thông số kỹ thuật, khả năng tùy biến logo OEM, màu sắc CMF và bao bì xuất khẩu.
@@ -575,7 +575,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </div>
 
             <button className="inline-flex items-center gap-2 text-xs font-semibold text-[#0062d2]">
-              <span>Xem toàn bộ 49 model</span>
+              <span>Xem toàn bộ sản phẩm</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </motion.div>

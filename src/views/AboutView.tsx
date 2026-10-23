@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Heart, Leaf, Target, Users, Factory, Award, ArrowRight } from 'lucide-react';
+import { PageHero, pageAsset } from '../components/PageHero';
 
 interface AboutViewProps {
   onOpenRfq: () => void;
@@ -16,18 +17,14 @@ export const AboutView: React.FC<AboutViewProps> = ({
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-20 sm:space-y-28">
       
       {/* 1. Page Header */}
-      <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-          CÂU CHUYỆN & ĐỊNH VỊ THƯƠNG HIỆU
-        </span>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#0f172a] font-normal leading-tight">
-          Kiến tạo sự tinh tế từ{' '}
-          <em className="font-light italic text-[#0062d2]">trái tim của công nghệ gia dụng</em>
-        </h1>
-        <p className="text-base text-[#475569] leading-relaxed">
-          Homichi được thành lập với tầm nhìn trở thành trung tâm sản xuất và thiết kế ODM/OEM hàng đầu khu vực, đưa các sản phẩm gia dụng thông minh chuẩn mực cao của Việt Nam vươn ra thị trường toàn cầu.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="CÂU CHUYỆN & ĐỊNH VỊ THƯƠNG HIỆU"
+        title="Kiến tạo sự tinh tế từ"
+        accent="trái tim của công nghệ gia dụng"
+        description="Homichi được thành lập với tầm nhìn trở thành trung tâm sản xuất và thiết kế ODM/OEM hàng đầu khu vực, đưa các sản phẩm gia dụng thông minh chuẩn mực cao của Việt Nam vươn ra thị trường toàn cầu."
+        image="pages/kitchen-showroom.webp"
+        imagePosition="object-center"
+      />
 
       {/* 2. Brand Philosophy */}
       <div className="p-8 sm:p-14 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -39,6 +36,12 @@ export const AboutView: React.FC<AboutViewProps> = ({
           <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
             Chúng tôi tin rằng một thiết bị gia dụng hoàn hảo là thiết bị hòa quyện tự nhiên vào không gian sống. Không cầu kỳ phô trương, từng đường cong, từng nút bấm cảm ứng và chất liệu hoàn thiện CMF của Homichi đều được tính toán để mang lại sự tĩnh tại, an tâm và bền bỉ suốt hàng thập kỷ.
           </p>
+          <img
+            src={pageAsset('pages/family-living.webp')}
+            alt="Gia đình Việt quây quần trong phòng khách mát lành"
+            loading="lazy"
+            className="w-full aspect-[3/2] object-cover rounded-[20px] shadow-md mt-2"
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -76,6 +79,7 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </h2>
         </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-10 lg:gap-14 items-start">
         <div className="border-l-2 border-[#e2e8f0] ml-4 sm:ml-6 space-y-8 pl-6 sm:pl-8">
           
           <div className="relative">
@@ -115,10 +119,22 @@ export const AboutView: React.FC<AboutViewProps> = ({
           </div>
 
         </div>
+
+        <figure className="lg:sticky lg:top-28 space-y-3">
+          <img
+            src={pageAsset('pages/factory-press.webp')}
+            alt="Dây chuyền dập và gia công cơ khí tại nhà máy Homichi"
+            loading="lazy"
+            className="w-full aspect-[4/3] object-cover rounded-[24px] shadow-lg"
+          />
+          <figcaption className="text-[11px] font-mono text-[#64748b]">Phân xưởng gia công cơ khí · Tổ hợp nhà máy 50.000m²</figcaption>
+        </figure>
+        </div>
       </div>
 
       {/* 4. ESG & Sustainable Commitment */}
-      <div className="p-8 sm:p-12 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-6">
+      <div className="rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_380px]">
+      <div className="p-8 sm:p-12 space-y-6">
         <div className="flex items-center gap-2">
           <Leaf className="w-5 h-5 text-emerald-600" />
           <span className="font-mono text-xs font-semibold uppercase text-emerald-700">
@@ -146,6 +162,13 @@ export const AboutView: React.FC<AboutViewProps> = ({
             Xem nhà máy thực tế
           </button>
         </div>
+      </div>
+      <img
+        src={pageAsset('pages/logistics-hub.webp')}
+        alt="Toàn cảnh tổ hợp nhà máy và trung tâm logistics"
+        loading="lazy"
+        className="w-full h-64 md:h-full object-cover"
+      />
       </div>
 
     </div>

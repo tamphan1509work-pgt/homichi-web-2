@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'home', label: 'Trang chủ' },
     { id: 'services', label: 'Dịch vụ ODM/OEM' },
     { id: 'capabilities', label: 'Năng lực' },
-    { id: 'products', label: 'Sản phẩm (49 mẫu)' },
+    { id: 'products', label: 'Sản phẩm' },
     { id: 'projects', label: 'Dự án & Đối tác' },
     { id: 'news', label: 'Tin tức' },
     { id: 'about', label: 'Về Homichi' }

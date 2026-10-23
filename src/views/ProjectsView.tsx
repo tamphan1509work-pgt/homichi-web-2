@@ -1,5 +1,6 @@
 import React from 'react';
 import { Globe, TrendingUp, CheckCircle, ArrowRight, ShieldCheck, Award } from 'lucide-react';
+import { PageHero, pageAsset } from '../components/PageHero';
 import { CASE_STUDIES } from '../data/companyInfo';
 
 interface ProjectsViewProps {
@@ -18,22 +19,25 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     { country: 'EU & Trung Đông', share: '10% Sản lượng', desc: 'Bình nước nóng gián tiếp men Titan và máy sưởi gốm PTC cao cấp.' }
   ];
 
+  // Campaign photo for the cooktop case; 3D product renders on a dark panel for the others
+  const CASE_VISUALS: Record<string, { image: string; render?: boolean; position?: string }> = {
+    'case-1': { image: 'banners/hero-bep-tu-booster.webp', position: 'object-left' },
+    'case-2': { image: 'products-3d/may-hut-am.webp', render: true },
+    'case-3': { image: 'products-3d/quat-cay.webp', render: true },
+  };
+
   return (
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-20 sm:space-y-28">
       
       {/* 1. Page Header */}
-      <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-          DỰ ÁN & ĐỐI TÁC CHIẾN LƯỢC
-        </span>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#0f172a] font-normal leading-tight">
-          Hợp tác cùng các thương hiệu gia dụng{' '}
-          <em className="font-light italic text-[#0062d2]">hàng đầu</em>
-        </h1>
-        <p className="text-base text-[#475569] leading-relaxed">
-          Sản phẩm do Homichi sản xuất hiện diện tại hơn 10 quốc gia, khẳng định vị thế sản xuất chất lượng cao của nền công nghiệp gia dụng Việt Nam.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="DỰ ÁN & ĐỐI TÁC CHIẾN LƯỢC"
+        title="Hợp tác cùng các thương hiệu gia dụng"
+        accent="hàng đầu"
+        description="Sản phẩm do Homichi sản xuất hiện diện tại hơn 10 quốc gia, khẳng định vị thế sản xuất chất lượng cao của nền công nghiệp gia dụng Việt Nam."
+        image="pages/cooking.webp"
+        imagePosition="object-center"
+      />
 
       {/* 2. Global Export Markets Grid */}
       <div className="p-8 sm:p-12 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-8">
@@ -46,7 +50,21 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6">
+        <div className="relative rounded-[20px] overflow-hidden min-h-[260px]">
+          <img
+            src={pageAsset('pages/logistics-hub.webp')}
+            alt="Trung tâm logistics và kho vận xuất khẩu"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#060b14]/85 to-transparent" />
+          <div className="absolute bottom-0 p-6 text-white">
+            <div className="font-serif text-3xl font-bold">10+</div>
+            <div className="text-xs text-white/80">quốc gia & vùng lãnh thổ</div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {MARKETS.map(m => (
             <div key={m.country} className="p-6 rounded-[20px] bg-[#f8fafc] border border-[#e2e8f0] space-y-3">
               <div className="flex items-center gap-2">
@@ -61,6 +79,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               </p>
             </div>
           ))}
+        </div>
         </div>
       </div>
 
@@ -79,8 +98,19 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           {CASE_STUDIES.map(cs => (
             <div
               key={cs.id}
-              className="p-8 sm:p-12 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-6"
+              className="rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-[360px_1fr]"
             >
+              <div className={`relative min-h-[260px] ${CASE_VISUALS[cs.id].render ? 'bg-gradient-to-br from-[#0b1324] to-[#0f2a52] flex items-center justify-center' : ''}`}>
+                <img
+                  src={pageAsset(CASE_VISUALS[cs.id].image)}
+                  alt={cs.title}
+                  loading="lazy"
+                  className={CASE_VISUALS[cs.id].render
+                    ? 'relative max-h-[240px] max-w-[70%] object-contain drop-shadow-[0_24px_30px_rgba(0,0,0,0.55)]'
+                    : `absolute inset-0 w-full h-full object-cover ${CASE_VISUALS[cs.id].position ?? ''}`}
+                />
+              </div>
+              <div className="p-8 sm:p-10 space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e2e8f0] pb-4">
                 <div>
                   <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase">
@@ -118,6 +148,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </span>
                   </div>
                 ))}
+              </div>
               </div>
             </div>
           ))}

@@ -97,7 +97,7 @@ Original Design & Equipment Manufacturer (ODM / OEM)
               Kiến tạo thiết bị gia dụng thông minh với chuẩn mực chế tác hàng đầu
             </h4>
             <p className="text-xs text-[#475569] leading-relaxed">
-              Tài liệu tổng hợp năng lực hệ sinh thái nhà máy, bằng sáng chế giải pháp nhiệt điện, danh mục 49 thiết bị tiêu biểu và quy trình kiểm thử khép kín đạt tiêu chuẩn Châu Âu.
+              Tài liệu tổng hợp năng lực hệ sinh thái nhà máy, bằng sáng chế giải pháp nhiệt điện, danh mục thiết bị tiêu biểu và quy trình kiểm thử khép kín đạt tiêu chuẩn Châu Âu.
             </p>
           </div>
 

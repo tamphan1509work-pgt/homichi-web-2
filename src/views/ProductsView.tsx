@@ -2,6 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { Search, Download, Filter, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, Product } from '../data/products';
 import { ProductCard } from '../components/ProductCard';
+import { PageHero, pageAsset } from '../components/PageHero';
+import { motion } from 'framer-motion';
+
+const HEADER_RENDERS = ['may-hut-am.webp', 'quat-cay.webp', 'noi-chien-khong-dau.webp'];
 
 interface ProductsViewProps {
   onViewProductDetails: (product: Product) => void;
@@ -36,7 +40,6 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
     let content = `========================================================
 HOMICHI SMART HOME APPLIANCES — OFFICIAL CATALOGUE 2026
 Original Design & Equipment Manufacturer (ODM / OEM)
-Total Models: ${PRODUCTS.length}
 ========================================================\n\n`;
 
     CATEGORIES.filter(c => c !== 'Tất cả ngành hàng').forEach(cat => {
@@ -69,28 +72,40 @@ Total Models: ${PRODUCTS.length}
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-12">
       
       {/* 1. Header with Catalog Download action */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[#e2e8f0]">
-        <div className="space-y-3 max-w-2xl">
-          <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-            DANH MỤC THIẾT BỊ GIA DỤNG HOMICHI
-          </span>
-          <h1 className="font-serif text-3xl sm:text-4xl text-[#0f172a] font-normal leading-tight">
-            Bộ sưu tập 49 thiết bị gia dụng{' '}
-            <em className="font-light italic text-[#0062d2]">chuẩn mực ODM/OEM</em>
-          </h1>
-          <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-            Các dòng sản phẩm được nghiên cứu và chế tác tối ưu cho gia đình hiện đại, sẵn sàng chuyển giao công nghệ hoặc sản xuất theo nhãn riêng của đối tác.
-          </p>
-        </div>
-
-        <button
-          onClick={handleDownloadFullCatalog}
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-[40px] bg-white hover:bg-slate-50 border border-[#e2e8f0] text-xs font-semibold text-[#0f172a] shadow-sm transition-all cursor-pointer whitespace-nowrap shrink-0"
-        >
-          <Download className="w-4 h-4 text-[#0062d2]" />
-          <span>Tải toàn bộ Catalogue 2026 (.PDF / TXT)</span>
-        </button>
-      </div>
+      <PageHero
+        eyebrow="DANH MỤC THIẾT BỊ GIA DỤNG HOMICHI"
+        title="Bộ sưu tập thiết bị gia dụng"
+        accent="chuẩn mực ODM/OEM"
+        description="Các dòng sản phẩm được nghiên cứu và chế tác tối ưu cho gia đình hiện đại, sẵn sàng chuyển giao công nghệ hoặc sản xuất theo nhãn riêng của đối tác."
+        actions={
+          <button
+            onClick={handleDownloadFullCatalog}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-[40px] bg-white hover:bg-slate-100 text-xs font-semibold text-[#0f172a] shadow-lg transition-all cursor-pointer whitespace-nowrap"
+          >
+            <Download className="w-4 h-4 text-[#0062d2]" />
+            <span>Tải toàn bộ Catalogue 2026 (.PDF / TXT)</span>
+          </button>
+        }
+        aside={
+          <div aria-hidden className="hidden md:flex items-end gap-2 lg:gap-4 shrink-0 self-center lg:self-end">
+            {HEADER_RENDERS.map((file, idx) => (
+              <motion.img
+                key={file}
+                src={pageAsset(`products-3d/${file}`)}
+                alt=""
+                className="w-auto object-contain drop-shadow-[0_24px_30px_rgba(0,0,0,0.6)]"
+                style={{ height: idx === 1 ? 260 : 190 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: [0, -10, 0] }}
+                transition={{
+                  opacity: { duration: 0.6, delay: 0.3 + idx * 0.12 },
+                  y: { duration: 5, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.5 },
+                }}
+              />
+            ))}
+          </div>
+        }
+      />
 
       {/* 2. Filter & Search Controls */}
       <div className="space-y-4">
@@ -145,7 +160,7 @@ Total Models: ${PRODUCTS.length}
               }`}
             >
               {cat}
-              {cat === 'Tất cả ngành hàng' ? ` (${PRODUCTS.length})` : ` (${PRODUCTS.filter(p => p.category === cat).length})`}
+              {cat !== 'Tất cả ngành hàng' && ` (${PRODUCTS.filter(p => p.category === cat).length})`}
             </button>
           ))}
         </div>
@@ -154,7 +169,12 @@ Total Models: ${PRODUCTS.length}
 
       {/* 3. Products Result Counter */}
       <div className="flex items-center justify-between text-xs text-[#64748b]">
-        <span>Hiển thị <strong>{filteredProducts.length}</strong> sản phẩm thiết bị</span>
+        {/* The total catalogue size is not shown; counts appear only for a filtered view */}
+        {selectedCategory !== 'Tất cả ngành hàng' || searchQuery.trim() ? (
+          <span>Hiển thị <strong>{filteredProducts.length}</strong> sản phẩm thiết bị</span>
+        ) : (
+          <span>Toàn bộ danh mục sản phẩm</span>
+        )}
         {selectedCategory !== 'Tất cả ngành hàng' && (
           <button
             onClick={() => setSelectedCategory('Tất cả ngành hàng')}

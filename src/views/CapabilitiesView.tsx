@@ -1,5 +1,6 @@
 import React from 'react';
 import { Factory, Cpu, ShieldCheck, Award, Video, Calendar, Layers, CheckCircle2, ArrowRight } from 'lucide-react';
+import { PageHero, pageAsset } from '../components/PageHero';
 import { CERTIFICATIONS } from '../data/companyInfo';
 
 interface CapabilitiesViewProps {
@@ -19,21 +20,19 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-20 sm:space-y-28">
       
       {/* 1. Page Header */}
-      <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-          NĂNG LỰC SẢN XUẤT & KIỂM CHUẨN
-        </span>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#0f172a] font-normal leading-tight">
-          Hệ sinh thái sản xuất thông minh quy mô{' '}
-          <em className="font-light italic text-[#0062d2]">50.000m²</em>
-        </h1>
-        <p className="text-base text-[#475569] leading-relaxed">
-          Tích hợp công nghệ chế tác khuôn mẫu chính xác, phân xưởng phòng sạch SMT chuẩn quốc tế và hệ thống kiểm định chất lượng khép kín, sẵn sàng đáp ứng các đơn hàng xuất khẩu quy mô lớn.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="NĂNG LỰC SẢN XUẤT & KIỂM CHUẨN"
+        title="Hệ sinh thái sản xuất thông minh quy mô"
+        accent="50.000m²"
+        description="Tích hợp công nghệ chế tác khuôn mẫu chính xác, phân xưởng phòng sạch SMT chuẩn quốc tế và hệ thống kiểm định chất lượng khép kín, sẵn sàng đáp ứng các đơn hàng xuất khẩu quy mô lớn."
+        image="pages/factory-floor.webp"
+        imagePosition="object-center"
+      />
 
       {/* 2. Interactive Plant Virtual Tour Banner */}
       <div className="p-8 sm:p-12 rounded-[24px] bg-[#0b1324] text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+        <img src={pageAsset('pages/factory-press.webp')} alt="" aria-hidden loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1324] via-[#0b1324]/80 to-[#0b1324]/30" />
         <div className="space-y-3 max-w-xl z-10">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -70,7 +69,10 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Capability 1: SMT */}
-        <div className="p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col justify-between">
+        <div className="group p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col overflow-hidden">
+          <div className="-mx-8 sm:-mx-10 -mt-8 sm:-mt-10 mb-2 aspect-[16/9] overflow-hidden">
+            <img src={pageAsset('pages/production-line.webp')} alt="Dây chuyền sản xuất tự động" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
           <div>
             <div className="flex items-center justify-between text-xs text-[#64748b] mb-2">
               <span className="font-mono text-[#0062d2] font-semibold">01 · PHÂN XƯỞNG SMT TỰ ĐỘNG</span>
@@ -84,7 +86,7 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
             </p>
           </div>
 
-          <div className="pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
+          <div className="mt-auto pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
             <div>
               <span className="font-mono font-bold text-[#0f172a] block">2.4 Triệu</span>
               <span className="text-[10px] text-[#64748b]">Bo mạch/năm</span>
@@ -101,7 +103,10 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
         </div>
 
         {/* Capability 2: R&D & Mold Tooling */}
-        <div className="p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col justify-between">
+        <div className="group p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col overflow-hidden">
+          <div className="-mx-8 sm:-mx-10 -mt-8 sm:-mt-10 mb-2 aspect-[16/9] overflow-hidden">
+            <img src={pageAsset('pages/factory-press.webp')} alt="Phân xưởng dập và gia công khuôn mẫu" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
           <div>
             <div className="flex items-center justify-between text-xs text-[#64748b] mb-2">
               <span className="font-mono text-[#0062d2] font-semibold">02 · TRUNG TÂM R&D & KHUÔN MẪU</span>
@@ -115,7 +120,7 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
             </p>
           </div>
 
-          <div className="pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
+          <div className="mt-auto pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
             <div>
               <span className="font-mono font-bold text-[#0f172a] block">&lt; 0.02mm</span>
               <span className="text-[10px] text-[#64748b]">Dung sai khuôn</span>
@@ -132,7 +137,10 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
         </div>
 
         {/* Capability 3: Acoustic & Reliability Testing */}
-        <div className="p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col justify-between">
+        <div className="group p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col overflow-hidden">
+          <div className="-mx-8 sm:-mx-10 -mt-8 sm:-mt-10 mb-2 aspect-[16/9] overflow-hidden">
+            <img src={pageAsset('pages/kitchen-living.webp')} alt="Thử nghiệm sản phẩm trong không gian bếp thực tế" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
           <div>
             <div className="flex items-center justify-between text-xs text-[#64748b] mb-2">
               <span className="font-mono text-[#0062d2] font-semibold">03 · PHÒNG THỬ NGHIỆM ĐỘ BỀN</span>
@@ -146,7 +154,7 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
             </p>
           </div>
 
-          <div className="pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
+          <div className="mt-auto pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
             <div>
               <span className="font-mono font-bold text-[#0f172a] block">&lt; 28 dB</span>
               <span className="text-[10px] text-[#64748b]">Độ ồn tĩnh âm</span>
@@ -163,7 +171,10 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
         </div>
 
         {/* Capability 4: 3-Tier QC Process */}
-        <div className="p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col justify-between">
+        <div className="group p-8 sm:p-10 rounded-[24px] bg-white border border-[#e2e8f0] shadow-sm space-y-4 flex flex-col overflow-hidden">
+          <div className="-mx-8 sm:-mx-10 -mt-8 sm:-mt-10 mb-2 aspect-[16/9] overflow-hidden">
+            <img src={pageAsset('pages/qc-inspection.webp')} alt="Kiểm tra chất lượng thành phẩm" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          </div>
           <div>
             <div className="flex items-center justify-between text-xs text-[#64748b] mb-2">
               <span className="font-mono text-[#0062d2] font-semibold">04 · HỆ THỐNG KIỂM SOÁT QC 3 TẦNG</span>
@@ -177,7 +188,7 @@ export const CapabilitiesView: React.FC<CapabilitiesViewProps> = ({
             </p>
           </div>
 
-          <div className="pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
+          <div className="mt-auto pt-4 border-t border-[#e2e8f0] grid grid-cols-3 gap-2 text-xs">
             <div>
               <span className="font-mono font-bold text-[#0f172a] block">&lt; 0.18%</span>
               <span className="text-[10px] text-[#64748b]">Tỷ lệ bảo hành thực tế</span>

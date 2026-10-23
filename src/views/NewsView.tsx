@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, ArrowRight, X, ExternalLink } from 'lucide-react';
+import { PageHero, pageAsset } from '../components/PageHero';
 import { NEWS_ARTICLES } from '../data/companyInfo';
 
 interface NewsViewProps {
@@ -20,18 +21,14 @@ export const NewsView: React.FC<NewsViewProps> = ({ onOpenRfq }) => {
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-12">
       
       {/* 1. Page Header */}
-      <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-          TIN TỨC & SỰ KIỆN CÔNG NGHỆ
-        </span>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#0f172a] font-normal leading-tight">
-          Góc nhìn chuyên gia &{' '}
-          <em className="font-light italic text-[#0062d2]">xu hướng thiết bị gia đình</em>
-        </h1>
-        <p className="text-base text-[#475569] leading-relaxed">
-          Cập nhật các hoạt động đối ngoại của Homichi tại các hội chợ công nghệ quốc tế và chia sẻ kinh nghiệm phát triển sản phẩm đồ gia dụng thông minh.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="TIN TỨC & SỰ KIỆN CÔNG NGHỆ"
+        title="Góc nhìn chuyên gia &"
+        accent="xu hướng thiết bị gia đình"
+        description="Cập nhật các hoạt động đối ngoại của Homichi tại các hội chợ công nghệ quốc tế và chia sẻ kinh nghiệm phát triển sản phẩm đồ gia dụng thông minh."
+        image="pages/qc-closeup.webp"
+        imagePosition="object-[70%_center]"
+      />
 
       {/* 2. Category Filter */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 text-xs">
@@ -56,9 +53,17 @@ export const NewsView: React.FC<NewsViewProps> = ({ onOpenRfq }) => {
           <div
             key={article.id}
             onClick={() => setReadingArticle(article)}
-            className="rounded-[24px] bg-white border border-[#e2e8f0] p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:shadow-lg hover:border-[#0062d2]/60 transition-all cursor-pointer group shadow-sm"
+            className="rounded-[24px] bg-white border border-[#e2e8f0] p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:shadow-lg hover:border-[#0062d2]/60 transition-all cursor-pointer group shadow-sm overflow-hidden"
           >
             <div className="space-y-4">
+              <div className="-mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-2 aspect-[16/10] overflow-hidden">
+                <img
+                  src={pageAsset(article.image)}
+                  alt=""
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
               <div className="flex items-center justify-between text-xs text-[#64748b]">
                 <span className="font-semibold text-[#0062d2]">{article.category}</span>
                 <span className="text-[11px] font-mono">{article.readTime}</span>
@@ -100,6 +105,12 @@ export const NewsView: React.FC<NewsViewProps> = ({ onOpenRfq }) => {
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            <img
+              src={pageAsset(readingArticle.image)}
+              alt=""
+              className="w-full aspect-[16/9] object-cover rounded-[16px]"
+            />
 
             <div>
               <div className="text-xs text-[#94a3b8] font-mono mb-2">{readingArticle.date} · {readingArticle.readTime}</div>

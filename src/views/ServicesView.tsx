@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle2, ChevronDown, ChevronUp, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
+import { PageHero, pageAsset } from '../components/PageHero';
 import { FAQ_LIST } from '../data/companyInfo';
 
 interface ServicesViewProps {
@@ -16,6 +17,30 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
+
+  const SERVICE_MODELS = [
+    {
+      name: 'ODM',
+      title: 'Thiết kế & sản xuất trọn gói',
+      desc: 'Homichi phát triển sản phẩm từ ý tưởng: kiểu dáng, bo mạch, khuôn mẫu đến kiểm định và sản xuất hàng loạt.',
+      image: 'pages/qc-inspection.webp',
+      alt: 'Kỹ sư Homichi đo kiểm chi tiết sản phẩm',
+    },
+    {
+      name: 'OEM',
+      title: 'Gia công theo bản vẽ của bạn',
+      desc: 'Sản xuất chính xác theo thiết kế và thông số kỹ thuật của đối tác, khuôn mẫu thuộc quyền sở hữu của khách hàng.',
+      image: 'pages/factory-press.webp',
+      alt: 'Dây chuyền gia công cơ khí tại nhà máy',
+    },
+    {
+      name: 'PRIVATE LABEL',
+      title: 'Nhãn riêng trên mẫu sẵn có',
+      desc: 'Ra mắt nhanh với logo, màu sắc CMF và bao bì mang nhận diện thương hiệu riêng trên các mẫu đã kiểm chứng.',
+      image: 'lifestyle/phong-bep.webp',
+      alt: 'Nồi chiên không dầu mang thương hiệu riêng trong căn bếp gia đình',
+    },
+  ];
 
   const COMPARISON = [
     {
@@ -71,18 +96,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
     <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 space-y-20 sm:space-y-28">
       
       {/* 1. Page Header */}
-      <div className="max-w-3xl space-y-4">
-        <span className="font-mono text-xs font-semibold text-[#0062d2] uppercase tracking-wider block">
-          DỊCH VỤ SẢN XUẤT B2B
-        </span>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#0f172a] font-normal leading-tight">
-          Giải pháp ODM / OEM & Private Label{' '}
-          <em className="font-light italic text-[#0062d2]">toàn diện</em>
-        </h1>
-        <p className="text-base text-[#475569] leading-relaxed">
-          Chúng tôi cung cấp năng lực sản xuất trọn vẹn từ bản vẽ ý tưởng đến kho thành phẩm. Linh hoạt thích ứng theo từng giai đoạn phát triển sản phẩm của thương hiệu.
-        </p>
-      </div>
+      <PageHero
+        eyebrow="DỊCH VỤ SẢN XUẤT B2B"
+        title="Giải pháp ODM / OEM & Private Label"
+        accent="toàn diện"
+        description="Chúng tôi cung cấp năng lực sản xuất trọn vẹn từ bản vẽ ý tưởng đến kho thành phẩm. Linh hoạt thích ứng theo từng giai đoạn phát triển sản phẩm của thương hiệu."
+        image="pages/production-line.webp"
+        imagePosition="object-center"
+      />
 
       {/* 2. Detailed Matrix Comparison */}
       <div className="space-y-6">
@@ -93,6 +114,28 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0f172a]">
             Lựa chọn phương án gia công tối ưu
           </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {SERVICE_MODELS.map((model) => (
+            <div key={model.name} className="group rounded-[24px] overflow-hidden bg-white border border-[#e2e8f0] shadow-sm hover:shadow-lg transition-shadow">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={pageAsset(model.image)}
+                  alt={model.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md font-mono text-[11px] font-bold text-[#0062d2]">
+                  {model.name}
+                </span>
+              </div>
+              <div className="p-6 space-y-1.5">
+                <h3 className="font-serif text-lg font-bold text-[#0f172a]">{model.title}</h3>
+                <p className="text-xs text-[#475569] leading-relaxed">{model.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="rounded-[24px] bg-white border border-[#e2e8f0] overflow-x-auto shadow-sm">
@@ -206,7 +249,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({
 
       {/* 5. Bottom Lead Trigger */}
       <div className="p-8 sm:p-12 rounded-[24px] bg-white border border-[#0062d2]/40 shadow-md flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="space-y-1">
+        <img
+          src={pageAsset('pages/retail-partner.webp')}
+          alt="Chuyên viên Homichi tư vấn đối tác"
+          loading="lazy"
+          className="w-24 h-24 rounded-full object-cover border-4 border-[#eff6ff] shadow-md shrink-0"
+        />
+        <div className="space-y-1 sm:flex-1">
           <h3 className="font-serif text-2xl font-bold text-[#0f172a]">
             Cần phương án báo giá theo yêu cầu đặc thù?
           </h3>

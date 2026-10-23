@@ -27,6 +27,8 @@ export interface NewsArticle {
   readTime: string;
   summary: string;
   content: string;
+  /** Cover image path under /assets */
+  image: string;
 }
 
 export const CERTIFICATIONS: Certification[] = [
@@ -161,6 +163,7 @@ export const CASE_STUDIES: CaseStudy[] = [
 export const NEWS_ARTICLES: NewsArticle[] = [
   {
     id: 'news-1',
+    image: 'pages/family-living.webp',
     category: 'Triển lãm',
     title: 'Homichi ra mắt bộ sưu tập thiết bị gia dụng thông minh tại Canton Fair & IFA Berlin 2026',
     date: '18 Tháng 10, 2026',
@@ -170,6 +173,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: 'news-2',
+    image: 'pages/qc-inspection.webp',
     category: 'Kiến thức ODM/OEM',
     title: 'Những tiêu chí cốt lõi khi doanh nghiệp lựa chọn đối tác ODM/OEM thiết bị gia dụng thông minh',
     date: '05 Tháng 10, 2026',
@@ -179,6 +183,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
   },
   {
     id: 'news-3',
+    image: 'pages/production-line.webp',
     category: 'Tin tức',
     title: 'Homichi khánh thành tổ hợp dây chuyền SMT tự động thế hệ thứ tư, nâng công suất thêm 40%',
     date: '22 Tháng 09, 2026',
